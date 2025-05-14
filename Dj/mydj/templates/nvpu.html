@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ h1 }}</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <br><br>
+      <table>
+      <tr>
+        <td>
+          <h3>开启对话</h3>
+            <form action="/your_name/" method="post">
+                  <label for="your_name">请输入: </label>
+                  <input id="your_name" type="text" name="your_name" maxlength="150">
+              <input type="submit" value="确定" name="chat"/>
+            </form>
+          <br><br>
+            {% for x in y %}
+                {% if x.user is not NULL %}
+                <p>我：  {{ x.user }}</p>
+                {% endif %}
+                <p>安娜康达：  {{ x.安娜康达 }}</p>
+            {% endfor %}
+            <input type="submit" value="清空" name="clear"/>
+        </td>
+      </tr>
+      </table>
+  {% if image_url %}
+  </form>
+  {% endif %}
+{% endblock %}

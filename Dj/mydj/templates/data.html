@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ h1 }}</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <br><br>
+    <div style="display: flex; gap: 20px;">
+      <!-- 第一列：组件 -->
+      <div style="flex: 1; border: 1px solid #ccc; padding: 10px;">
+        <h3>开启对话</h3>
+        <form action="/your_name/" method="post">
+          <label for="your_name">请输入: </label>
+          <input id="your_name" type="text" name="your_name" maxlength="150">
+          <input type="submit" value="确定" name="chat"/>
+          <input type="file" name="csv_file" accept=".csv">
+          <button type="submit" name="upload">上传</button>
+        </form>
+        <br><br>
+        <input type="submit" value="清空" name="clear"/>
+      </div>
+      <!-- 第二列：聊天内容 -->
+      <div style="flex: 1; border: 1px solid #ccc; padding: 10px;">
+        <h3>聊天记录</h3>
+        <div style="border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto;">
+          {{ z|safe }}
+          {% for x in y %}
+            {% if x.user is not NULL %}
+              <p>我：  {{ x.user }}</p>
+            {% endif %}
+            <p>安娜康达：  {{ x.安娜康达 }}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </form>
+  {% if image_url %}
+  {% endif %}
+{% endblock %}

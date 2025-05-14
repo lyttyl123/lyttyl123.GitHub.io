@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1 class="text-center mb-4">{{ h1 }}</h1>
+
+  <form method="post" enctype="multipart/form-data" class="row g-4">
+    {% csrf_token %}
+
+    <!-- 左侧表单 - 添加 sticky-top 类并设置间距 -->
+    <div class="col-md-4">
+      <div class="card shadow-sm sticky-top" style="top: 20px;">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">旅行偏好设置</h5>
+        </div>
+        <div class="card-body">
+          <!-- 原有表单内容保持不变 -->
+          <div class="mb-3">
+            <label for="destination" class="form-label">目的地</label>
+            <input id="destination" type="text" name="destination" class="form-control" value="{{ destination|default:'云南' }}" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="travel_date" class="form-label">出发日期</label>
+            <input id="travel_date" type="date" name="travel_date" class="form-control" value="{{ travel_date|default:'2025-05-31' }}" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="days" class="form-label">旅行天数</label>
+            <input id="days" type="number" name="days" class="form-control" min="1" max="30" value="{{ days|default:'3' }}" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">兴趣偏好</label><br>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="food" name="interests" value="美食" checked>
+              <label class="form-check-label" for="food">美食</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="culture" name="interests" value="文化" checked>
+              <label class="form-check-label" for="culture">文化</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="nature" name="interests" value="自然">
+              <label class="form-check-label" for="nature">自然</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="shopping" name="interests" value="购物">
+              <label class="form-check-label" for="shopping">购物</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="budget" class="form-label">预算(元)</label>
+            <input id="budget" type="number" name="budget" class="form-control" min="1000" step="1000" value="{{ budget|default:'10000' }}" required>
+          </div>
+
+          <div class="mb-4">
+            <label for="comfort_level" class="form-label">舒适度</label>
+            <select id="comfort_level" name="comfort_level" class="form-select" required>
+              <option value="经济">经济</option>
+              <option value="中等" selected>中等</option>
+              <option value="豪华">豪华</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 py-2">生成旅游规划</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右侧输出区域 -->
+    <div class="col-md-8">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0">当天天气</h5>
+        </div>
+        <div class="card-body">
+          {{ weather|safe }}
+        </div>
+      </div>
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">旅游景点</h5>
+        </div>
+        <div class="card-body">
+          {{ attractions|safe }}
+        </div>
+      </div>
+
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-warning text-dark">
+          <h5 class="mb-0">行程规划</h5>
+        </div>
+        <div class="card-body">
+          {{ itinerary|safe }}
+        </div>
+      </div>
+
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white">
+          <h5 class="mb-0">出行方式</h5>
+        </div>
+        <div class="card-body">
+          {{ transportation|safe }}
+        </div>
+      </div>
+
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-danger text-white">
+          <h5 class="mb-0">推荐美食</h5>
+        </div>
+        <div class="card-body">
+          {{ meal_suggestions|safe }}
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+          <h5 class="mb-0">注意事项</h5>
+        </div>
+        <div class="card-body">
+          {{ tips|safe }}
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<style>
+  /* 确保 sticky 元素在容器内有效 */
+  .container {
+    position: relative;
+  }
+
+  /* 为小屏幕设备添加响应式调整 */
+  @media (max-width: 767.98px) {
+    .sticky-top {
+      position: static !important;
+    }
+  }
+</style>
+{% endblock %}
